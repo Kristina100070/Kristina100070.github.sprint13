@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const validator = require('validator');
 
 const userSchema = new mongoose.Schema ({
   name: {
@@ -16,8 +17,12 @@ const userSchema = new mongoose.Schema ({
   avatar: {
     type: String,
     required: true,
-    match: /https?.*/
-  }
+    validate: {
+      validator(avatar) {
+        return validator.isURL(avatar);
+      }
+    }
+  },
 });
 
 module.exports = mongoose.model('user', userSchema);

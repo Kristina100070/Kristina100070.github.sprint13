@@ -11,7 +11,10 @@ const findCards = (req, res, next) => {
 }
 
 const createCard = (req, res, next) => {
-  const card = cardModel.create(req.body)
+  const { name, link } = req. body;
+  const owner = req.user._id;
+
+  const card = cardModel.create({ name, link, owner })
   .then((card) => {
     res.json(card);
   })

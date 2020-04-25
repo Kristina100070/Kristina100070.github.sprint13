@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const validator = require('validator');
+
 const { Schema } = mongoose;
 const { ObjectId } = Schema.Types;
 const cardSchema = new mongoose.Schema ({
@@ -14,8 +16,8 @@ const cardSchema = new mongoose.Schema ({
     minlength: 2,
     maxlength: 30,
     validate: {
-      validator: function(v) {
-        return /http[s]?:\/\/(www\.)?((\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})|((([a-z-]{2,})*\.([a-z-]{2,}))*))(:\d{2,5})?((\/[-a-zA-Z0-9#\/=]*)?)/.test(v);
+      validator(link) {
+        return validator.isURL(link);
       }
     }
   },
