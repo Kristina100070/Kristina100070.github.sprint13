@@ -3,7 +3,7 @@ const validator = require('validator');
 
 const { Schema } = mongoose;
 const { ObjectId } = Schema.Types;
-const cardSchema = new mongoose.Schema ({
+const cardSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -18,8 +18,8 @@ const cardSchema = new mongoose.Schema ({
     validate: {
       validator(link) {
         return validator.isURL(link);
-      }
-    }
+      },
+    },
   },
   owner: {
     required: true,
@@ -32,9 +32,9 @@ const cardSchema = new mongoose.Schema ({
     default: [],
   },
   createdAt: {
-   type: Date,
-   default: Date.now,
-  }
+    type: Date,
+    default: Date.now,
+  },
 });
 
 module.exports = mongoose.model('card', cardSchema);

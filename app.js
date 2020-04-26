@@ -1,24 +1,27 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable import/order */
 const express = require('express');
-//const path = require('path')
+// const path = require('path')
 const router = require('./routes');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser')
+// eslint-disable-next-line import/no-extraneous-dependencies
+const bodyParser = require('body-parser');
 
 const { PORT = 3000 } = process.env;
 const app = express();
 
 mongoose.connect('mongodb://localhost:27017/mestodb', {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useFindAndModify: false,
-    useUnifiedTopology: true,
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useFindAndModify: false,
+  useUnifiedTopology: true,
 });
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use((req, res, next) => {
   req.user = {
-      _id: '5ea1cf7c0c6b6e146cbb1174'
+    _id: '5ea1cf7c0c6b6e146cbb1174',
   };
   next();
 });
@@ -32,15 +35,17 @@ app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
 });
 
-app.use(function (err, req, res, next) {
+// eslint-disable-next-line consistent-return
+app.use((err, req, res, next) => {
   const status = err.status || 500;
-  let message = err.message;
-  if (err.name =='ValidationError') {
+  let { message } = err;
+  if (err.name === 'ValidationError') {
     return res.status(400).send({ message: 'validation error' });
   }
-  if (status == 500) {
+  if (status === 500) {
+    // eslint-disable-next-line no-console
     console.error(err.stack || err);
     message = 'unexpected error';
   }
   res.status(status).send(message);
-})
+});
