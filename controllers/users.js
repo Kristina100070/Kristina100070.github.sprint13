@@ -35,7 +35,8 @@ const createUser = (req, res, next) => {
 };
 
 const updateProfile = (req, res, next) => {
-  userModel.findByIdAndUpdate(req.user._id, { new: true })
+  const { name, about } = req.body;
+  userModel.findByIdAndUpdate(req.user._id, { name, about }, { new: true, runValidators: true })
     .then((user) => {
       res.send({ data: user });
     })
@@ -46,7 +47,7 @@ const updateProfile = (req, res, next) => {
 
 const updateAvatar = (req, res, next) => {
   const { avatar } = req.body;
-  userModel.findByIdAndUpdate(req.user._id, { avatar }, { new: true })
+  userModel.findByIdAndUpdate(req.user._id, { avatar }, { new: true, runValidators: true })
     .then((user) => {
       res.send({ data: user });
     })
