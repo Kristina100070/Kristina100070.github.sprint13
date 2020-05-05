@@ -37,12 +37,19 @@ const getCardMiddeleware = (req, res, next) => cardModel.findOne({
   .catch((err) => {
     next(err);
   });
+
 const findCardById = (req, res) => {
   res.json(req.card);
 };
 
 const deleteCard = (req, res, next) => cardModel.remove({ _id: req.params.cardId })
-  .then((data) => res.json(data))
+  // eslint-disable-next-line consistent-return
+  .then((card) => {
+    if (String(card.owner) !== req.user._id) {
+      return next({ status: 404, massage: 'Вы не автор карточки' });
+    }
+    res.json(card);
+  })
   .catch(next);
 
 const likeCard = (req, res) => {
